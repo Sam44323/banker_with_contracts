@@ -101,5 +101,23 @@ describe("Banking.sol test", () => {
 
       expect(await banking.userBalance(userA.address)).to.be.equal(30);
     });
+
+    it("User should be able to withdraw", async () => {
+      await token
+        .connect(owner)
+        .approve(userA.address, (30 * 10 ** 18).toString());
+      await token
+        .connect(owner)
+        .transfer(userA.address, (30 * 10 ** 18).toString());
+      await token
+        .connect(userA)
+        .approve(banking.address, (30 * 10 ** 18).toString());
+      await banking.connect(userA).depositTokens(30);
+      await banking.connect(userA).withdrawTokens(30);
+
+      expect(
+        parseInt((await token.balanceOf(userA.address)).toString()) / 10 ** 18
+      ).to.be.equal(30);
+    });
   });
 });
