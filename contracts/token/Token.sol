@@ -35,6 +35,10 @@ contract Token is ERC20, Ownable {
         _transferOwnership(_recipient);
     }
 
+    function tokensMinted() public view returns (uint256) {
+        return mintedToken;
+    }
+
     // modifier for only admin
 
     modifier onlyAdmin() {
