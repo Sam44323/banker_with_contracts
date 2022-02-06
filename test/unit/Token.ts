@@ -17,4 +17,9 @@ describe("Testing the BKR Token", () => {
   it("Checks the admin of the token contract", async () => {
     expect(await token.owner()).to.equal(owner.address);
   });
+
+  it("Minting the slab token to recipient", async () => {
+    await token.connect(owner).mint(recipient.address);
+    expect(await token.balanceOf(recipient.address)).to.equal(1000 * 10 ** 18);
+  });
 });

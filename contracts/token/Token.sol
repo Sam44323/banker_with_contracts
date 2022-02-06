@@ -34,7 +34,7 @@ contract Token is Ownable, ERC20Capped {
     // modifier for only admin
 
     modifier onlyAdmin() {
-        require(msg.sender != owner(), "Admin can call this function!");
+        require(msg.sender == owner(), "Admin can call this function!");
         _;
     }
 }
