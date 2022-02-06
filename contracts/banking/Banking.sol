@@ -5,9 +5,11 @@ import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
 contract Banking is Ownable {
-    IERC20 private immutable token;
-    mapping(address => bool) public blacklisted;
-    mapping(address => uint256) public balances;
+    IERC20 private immutable token; // storing the token BKR
+    mapping(address => bool) internal blacklisted; // blacklisted addresses
+    mapping(address => uint256) internal balances; // balancer deposited for each address
+    
+    mapping(address => uint256) internal rewardBalances;
 
     constructor(address _tokenAddress) {
         token = IERC20(_tokenAddress);
