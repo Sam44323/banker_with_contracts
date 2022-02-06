@@ -24,4 +24,8 @@ describe("Testing the BKR Token", () => {
       parseInt((await token.balanceOf(recipient.address)).toString())
     ).to.equal(1000 * 10 ** 18);
   });
+  it("Checking the ownership transfer method", async () => {
+    await token.connect(owner).transferOwnership(recipient.address);
+    expect(await token.owner()).to.equal(recipient.address);
+  });
 });
