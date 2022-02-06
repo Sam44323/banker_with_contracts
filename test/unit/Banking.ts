@@ -127,5 +127,22 @@ describe("Banking.sol test", () => {
         expect(err).to.exist;
       }
     });
+
+    it("User should not be able to call the deposit function with less than 0 value", async () => {
+      try {
+        await token
+          .connect(owner)
+          .approve(userA.address, (30 * 10 ** 18).toString());
+        await token
+          .connect(owner)
+          .transfer(userA.address, (30 * 10 ** 18).toString());
+        await token
+          .connect(userA)
+          .approve(banking.address, (30 * 10 ** 18).toString());
+        await banking.connect(userA).depositTokens(0);
+      } catch (err) {
+        expect(err).to.exist;
+      }
+    });
   });
 });
