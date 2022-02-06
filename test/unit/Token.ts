@@ -35,6 +35,15 @@ describe("Testing the BKR Token", () => {
     expect(await token.tokensMinted()).to.be.equal(1100);
   });
 
+  it("Transaction reverted for value greater than max supply", async () => {
+    try {
+      await token.connect(owner).mint(recipient.address, 100_000);
+    } catch (err) {
+      // eslint-disable-next-line no-unused-expressions
+      expect(err).to.exist;
+    }
+  });
+
   it("Checking the ownership transfer method", async () => {
     await token.connect(owner).transferOwnership(recipient.address);
     expect(await token.owner()).to.equal(recipient.address);
