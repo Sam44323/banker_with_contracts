@@ -16,6 +16,32 @@ contract Banking is Ownable {
     }
 
     /*
+    @dev: functions for depositing tokens to the contract
+    @param: _amount: the amount to be deposited
+    */
+
+    function depositTokens(uint256 _amount) public isNotBlacklisted {
+        require(_amount > 0, "Amount should be greater than 0!");
+        token.transferFrom(msg.sender, address(this), _amount);
+        balances[msg.sender] += _amount;
+    }
+
+    /*
+    @dev: functions for withdrawing tokens from the contract
+    @param: _amount: the amount to be withdrawn
+    */
+
+    function withdrawTokens(uint256 _amount) public isNotBlacklisted {
+        require(balances[msg.sender] != 0, "You have no tokens to withdraw!");
+        require(
+            _amount <= balances[msg.sender],
+            "You can't withdraw more that your current balance!"
+        );
+        token.transfer(msg.sender, _amount);
+        balances[msg.sender] -= _amount;
+    }
+
+    /*
      * @dev: check if the address is blacklisted
      * @param: user: address of the user
      */
