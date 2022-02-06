@@ -62,4 +62,15 @@ describe("Banking.sol test", () => {
       expect(reward).to.be.equal(0);
     });
   });
+
+  describe("Transaction method testing", () => {
+    it("A blacklisted address should not be able to deposit", async () => {
+      await banking.addToBlacklist(userA.address);
+      try {
+        await banking.connect(userA).depositTokens(100 * 10 ** 18);
+      } catch (err) {
+        expect(err).to.exist;
+      }
+    });
+  });
 });
