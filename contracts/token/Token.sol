@@ -16,10 +16,6 @@ contract Token is Ownable, ERC20Capped {
     // function for adding liquidity to a contract for LP purposes
 
     function mint(address _recipient) public onlyAdmin {
-        require(
-            address(_recipient).isContract(),
-            "Recipient must be a contract"
-        );
         require(mintedToken <= cap(), "Token supply is already capped");
         _mint(_recipient, 1000 ether);
         mintedToken += 1000 ether;
