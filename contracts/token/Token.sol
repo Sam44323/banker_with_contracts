@@ -17,7 +17,7 @@ contract Token is ERC20, Ownable {
         _mint(msg.sender, 100);
     }
 
-    // function for adding liquidity to a contract for LP purposes (1000 ether slab for minter)
+    // function for adding liquidity to a contract for LP purposes
 
     function mint(address _recipient, uint256 _amount) public onlyAdmin {
         require(
