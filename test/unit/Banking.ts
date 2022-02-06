@@ -12,6 +12,8 @@ describe("Banking.sol test", () => {
     userB: SignerWithAddress,
     userC: SignerWithAddress;
 
+  const AMOUNT = 100 * 10 ** 18;
+
   beforeEach(async () => {
     [owner, userA, userB, userC] = await ethers.getSigners();
 
@@ -80,6 +82,14 @@ describe("Banking.sol test", () => {
       } catch (err) {
         expect(err).to.exist;
       }
+    });
+
+    it("User should be able to deposit", async () => {
+      await banking.connect(userA).depositTokens(AMOUNT);
+
+      expect((await banking.userBalance(userA.address)).toString()).to.be.equal(
+        AMOUNT
+      );
     });
   });
 });

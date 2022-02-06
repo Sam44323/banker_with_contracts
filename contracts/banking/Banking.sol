@@ -25,7 +25,7 @@ contract Banking is Ownable {
 
     function depositTokens(uint256 _amount) public isNotBlacklisted {
         require(_amount > 0, "Amount should be greater than 0!");
-        token.transferFrom(msg.sender, address(this), _amount);
+        token.transferFrom(msg.sender, address(this), _amount * 10**18);
         balances[msg.sender] += _amount;
     }
 
@@ -40,7 +40,7 @@ contract Banking is Ownable {
             _amount <= balances[msg.sender],
             "Can't withdraw more than your balance!"
         );
-        token.transfer(msg.sender, _amount);
+        token.transfer(msg.sender, _amount * 10**18);
         balances[msg.sender] -= _amount;
     }
 
