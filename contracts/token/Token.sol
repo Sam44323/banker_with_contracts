@@ -14,7 +14,7 @@ contract Token is ERC20, Ownable {
 
     constructor() ERC20("Banker", "BKR") {
         mintedToken = 100;
-        _mint(msg.sender, 100 ether);
+        _mint(msg.sender, 100);
     }
 
     // function for adding liquidity to a contract for LP purposes (1000 ether slab for minter)

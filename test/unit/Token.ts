@@ -12,6 +12,10 @@ describe("Testing the BKR Token", () => {
     token = await (await TokenFactory).connect(owner).deploy();
   });
 
+  it("Checks the balance of the owner", async () => {
+    expect(await token.balanceOf(owner.address)).to.be.equal(100);
+  });
+
   it("Checks the admin of the token contract", async () => {
     expect(await token.owner()).to.equal(owner.address);
   });
