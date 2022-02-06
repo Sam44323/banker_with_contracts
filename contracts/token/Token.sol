@@ -8,16 +8,16 @@ import "@openzeppelin/contracts/utils/Address.sol";
 
 contract Token is ERC20, Ownable {
     using Address for address;
-    uint256 internal MAX_SUPPLY = 100_000;
+    uint256 internal MAX_SUPPLY = 1_000_000 * 10**18;
     uint256 internal minted_tokens = 0;
     uint256 internal mintedToken;
 
     constructor() ERC20("Banker", "BKR") {
         mintedToken = 100;
-        _mint(msg.sender, 100);
+        _mint(msg.sender, 100 * 10**18);
     }
 
-    // function for adding liquidity to a contract for LP purposes (1000 ether slab for minter)
+    // function for adding liquidity to a contract for LP purposes
 
     function mint(address _recipient, uint256 _amount) public onlyAdmin {
         require(
@@ -25,7 +25,7 @@ contract Token is ERC20, Ownable {
             "Token supply is already capped"
         );
         mintedToken += _amount;
-        _mint(_recipient, _amount);
+        _mint(_recipient, _amount * 10**18);
     }
 
     // function for transferring ownership of the token contract

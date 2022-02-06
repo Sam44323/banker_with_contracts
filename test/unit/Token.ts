@@ -13,7 +13,10 @@ describe("Testing the BKR Token", () => {
   });
 
   it("Checks the balance of the owner", async () => {
-    expect(await token.balanceOf(owner.address)).to.be.equal(100);
+    expect(
+      parseInt(await (await token.balanceOf(owner.address)).toString()) /
+        10 ** 18
+    ).to.be.equal(100);
   });
 
   it("Checks the admin of the token contract", async () => {
