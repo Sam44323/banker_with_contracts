@@ -35,7 +35,7 @@ contract Banking is Ownable {
         require(balances[msg.sender] != 0, "You have no tokens to withdraw!");
         require(
             _amount <= balances[msg.sender],
-            "You can't withdraw more that your current balance!"
+            "Can't withdraw more than your balance!"
         );
         token.transfer(msg.sender, _amount);
         balances[msg.sender] -= _amount;
