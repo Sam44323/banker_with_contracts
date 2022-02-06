@@ -8,7 +8,7 @@ describe("Banking.sol test", () => {
   let banking: Banking,
     token: Token,
     owner: SignerWithAddress,
-    userA: SignerWithAddress,
+    userA: SignerWithAddress;
 
   beforeEach(async () => {
     [owner, userA] = await ethers.getSigners();
