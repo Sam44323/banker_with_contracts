@@ -14,8 +14,7 @@ describe("Testing the BKR Token", () => {
 
   it("Checks the balance of the owner", async () => {
     expect(
-      parseInt(await (await token.balanceOf(owner.address)).toString()) /
-        10 ** 18
+      parseInt((await token.balanceOf(owner.address)).toString()) / 10 ** 18
     ).to.be.equal(100);
   });
 
