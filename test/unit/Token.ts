@@ -20,6 +20,8 @@ describe("Testing the BKR Token", () => {
 
   it("Minting the slab token to recipient", async () => {
     await token.connect(owner).mint(recipient.address);
-    expect(await token.balanceOf(recipient.address)).to.equal(1000 * 10 ** 18);
+    expect(
+      parseInt((await token.balanceOf(recipient.address)).toString())
+    ).to.equal(1000 * 10 ** 18);
   });
 });
