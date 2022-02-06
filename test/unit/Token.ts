@@ -3,7 +3,7 @@ import { expect } from "chai";
 import { ethers } from "hardhat";
 import { Token } from "../../typechain";
 
-describe("Testing the BKR Token", () => {
+describe("Token.sol test for BKR", () => {
   let token: Token, owner: SignerWithAddress, recipient: SignerWithAddress;
 
   beforeEach(async () => {
