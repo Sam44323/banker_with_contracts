@@ -72,5 +72,14 @@ describe("Banking.sol test", () => {
         expect(err).to.exist;
       }
     });
+
+    it("A blacklisted user should not be able to withdraw", async () => {
+      await banking.addToBlacklist(userA.address);
+      try {
+        await banking.connect(userA).withdrawTokens(100 * 10 ** 18);
+      } catch (err) {
+        expect(err).to.exist;
+      }
+    });
   });
 });
