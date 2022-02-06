@@ -119,5 +119,13 @@ describe("Banking.sol test", () => {
         parseInt((await token.balanceOf(userA.address)).toString()) / 10 ** 18
       ).to.be.equal(30);
     });
+
+    it("User should get error if they have no balance to withdraw", async () => {
+      try {
+        await banking.connect(userA).withdrawTokens(30);
+      } catch (err) {
+        expect(err).to.exist;
+      }
+    });
   });
 });
