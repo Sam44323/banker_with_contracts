@@ -9,11 +9,9 @@ describe("Banking.sol test", () => {
     token: Token,
     owner: SignerWithAddress,
     userA: SignerWithAddress,
-    userB: SignerWithAddress,
-    userC: SignerWithAddress;
 
   beforeEach(async () => {
-    [owner, userA, userB, userC] = await ethers.getSigners();
+    [owner, userA] = await ethers.getSigners();
 
     token = await (await ethers.getContractFactory("Token"))
       .connect(owner)
