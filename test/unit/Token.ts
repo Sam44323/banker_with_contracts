@@ -27,4 +27,16 @@ describe("Testing the BKR Token", () => {
     await token.connect(owner).transferOwnership(recipient.address);
     expect(await token.owner()).to.equal(recipient.address);
   });
+
+  it("user-to-user transaction test with BKR", async () => {
+    const [, , recipientB] = await ethers.getSigners();
+    await token.connect(owner).mint(recipient.address);
+    await token.connect(recipient).approve(recipientB.address, 100 * 10 ** 18);
+    await token.transferFrom(
+      recipient.address,
+      recipientB.address,
+      (100 * 10 ** 18).toString()
+    );
+    expect(await token.balanceOf(recipientB.address)).to.equal(100 * 10 ** 18);
+  });
 });

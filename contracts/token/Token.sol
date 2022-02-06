@@ -4,21 +4,25 @@ pragma solidity ^0.8.0;
 
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
-import "@openzeppelin/contracts/token/ERC20/extensions/ERC20Capped.sol";
 import "@openzeppelin/contracts/utils/Address.sol";
 
-contract Token is Ownable, ERC20Capped {
+contract Token is ERC20, Ownable {
     using Address for address;
+    uint256 internal MAX_SUPPLY = 100_000;
+    uint256 internal minted_tokens = 0;
     uint256 internal mintedToken;
 
-    constructor() ERC20("Banker", "BKR") ERC20Capped(100000 * 10**18) {}
+    constructor() ERC20("Banker", "BKR") {
+        mintedToken = 100;
+        _mint(msg.sender, 100 ether);
+    }
 
     // function for adding liquidity to a contract for LP purposes (1000 ether slab for minter)
 
-    function mint(address _recipient) public onlyAdmin {
-        require(mintedToken <= cap(), "Token supply is already capped");
-        _mint(_recipient, 1000 ether);
-        mintedToken += 1000 ether;
+    function mint(address _recipient, uint256 _amount) public onlyAdmin {
+        require(minted_tokens <= MAX_SUPPLY, "Token supply is already capped");
+        mintedToken += _amount;
+        _mint(_recipient, _amount);
     }
 
     // function for transferring ownership of the token contract
