@@ -25,6 +25,12 @@ describe("Testing the BKR Token", () => {
     ).to.equal(100);
   });
 
+  it("Checks invalid minting when function called other than the admin", async () => {
+    await expect(
+      token.connect(recipient).mint(recipient.address, 100)
+    ).to.be.revertedWith("Admin can call this function!");
+  });
+
   it("Checking the ownership transfer method", async () => {
     await token.connect(owner).transferOwnership(recipient.address);
     expect(await token.owner()).to.equal(recipient.address);
