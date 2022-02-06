@@ -20,7 +20,10 @@ contract Token is ERC20, Ownable {
     // function for adding liquidity to a contract for LP purposes (1000 ether slab for minter)
 
     function mint(address _recipient, uint256 _amount) public onlyAdmin {
-        require(minted_tokens <= MAX_SUPPLY, "Token supply is already capped");
+        require(
+            minted_tokens + _amount <= MAX_SUPPLY,
+            "Token supply is already capped"
+        );
         mintedToken += _amount;
         _mint(_recipient, _amount);
     }
