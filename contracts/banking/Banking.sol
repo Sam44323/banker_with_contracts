@@ -3,13 +3,16 @@
 pragma solidity ^0.8.0;
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
+import "@openzeppelin/contracts/utils/Address.sol";
 
 contract Banking is Ownable {
     IERC20 private immutable token; // storing the token BKR
+
     mapping(address => bool) internal blacklisted; // blacklisted addresses
     mapping(address => uint256) internal balances; // balancer deposited for each address
-
     mapping(address => uint256) internal rewardBalances; // storing the reward balances airdropped
+
+    using Address for address;
 
     constructor(address _tokenAddress) {
         token = IERC20(_tokenAddress);
@@ -77,6 +80,19 @@ contract Banking is Ownable {
     function addToBlacklist(address user) public onlyAdmin {
         require(!blacklisted[user], "User is already blacklisted");
         blacklisted[user] = true;
+    }
+
+    /*
+    @dev: function for transferring ownership for admin
+    @param: _recipient: the new owner of the contract
+     */
+
+    function transferOwnership(address _recipient) public override onlyAdmin {
+        require(
+            !address(_recipient).isContract(),
+            "Recipient musn't be a contract"
+        );
+        _transferOwnership(_recipient);
     }
 
     modifier onlyAdmin() {
