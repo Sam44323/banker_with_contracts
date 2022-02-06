@@ -10,33 +10,23 @@ describe("Testing the BKR Token", () => {
     [owner, recipient] = await ethers.getSigners();
     const TokenFactory = ethers.getContractFactory("Token");
     token = await (await TokenFactory).connect(owner).deploy();
+
+    await token.connect(owner).mint(owner.address, 1000);
   });
 
   it("Checks the admin of the token contract", async () => {
     expect(await token.owner()).to.equal(owner.address);
   });
 
-  it("Minting the slab token to recipient", async () => {
-    await token.connect(owner).mint(recipient.address);
+  it("user-to-user transaction test with BKR", async () => {
+    await token.connect(owner).transfer(recipient.address, 100);
     expect(
       parseInt((await token.balanceOf(recipient.address)).toString())
-    ).to.equal(1000 * 10 ** 18);
+    ).to.equal(100);
   });
 
   it("Checking the ownership transfer method", async () => {
     await token.connect(owner).transferOwnership(recipient.address);
     expect(await token.owner()).to.equal(recipient.address);
-  });
-
-  it("user-to-user transaction test with BKR", async () => {
-    const [, , recipientB] = await ethers.getSigners();
-    await token.connect(owner).mint(recipient.address);
-    await token.connect(recipient).approve(recipientB.address, 100 * 10 ** 18);
-    await token.transferFrom(
-      recipient.address,
-      recipientB.address,
-      (100 * 10 ** 18).toString()
-    );
-    expect(await token.balanceOf(recipientB.address)).to.equal(100 * 10 ** 18);
   });
 });
