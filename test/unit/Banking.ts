@@ -12,8 +12,6 @@ describe("Banking.sol test", () => {
     userB: SignerWithAddress,
     userC: SignerWithAddress;
 
-  const AMOUNT = 100 * 10 ** 18;
-
   beforeEach(async () => {
     [owner, userA, userB, userC] = await ethers.getSigners();
 
@@ -66,10 +64,15 @@ describe("Banking.sol test", () => {
   });
 
   describe("Transaction method testing", () => {
+    it("Balance of owner is available", async () => {
+      expect(
+        parseInt((await token.balanceOf(owner.address)).toString()) / 10 ** 18
+      ).to.be.equal(100);
+    });
     it("A blacklisted address should not be able to deposit", async () => {
       await banking.addToBlacklist(userA.address);
       try {
-        await banking.connect(userA).depositTokens(100 * 10 ** 18);
+        await banking.connect(userA).depositTokens(30 * 10 ** 18);
       } catch (err) {
         expect(err).to.exist;
       }
@@ -78,18 +81,25 @@ describe("Banking.sol test", () => {
     it("A blacklisted user should not be able to withdraw", async () => {
       await banking.addToBlacklist(userA.address);
       try {
-        await banking.connect(userA).withdrawTokens(100 * 10 ** 18);
+        await banking.connect(userA).withdrawTokens(30 * 10 ** 18);
       } catch (err) {
         expect(err).to.exist;
       }
     });
 
     it("User should be able to deposit", async () => {
-      await banking.connect(userA).depositTokens(AMOUNT);
+      await token
+        .connect(owner)
+        .approve(userA.address, (30 * 10 ** 18).toString());
+      await token
+        .connect(owner)
+        .transfer(userA.address, (30 * 10 ** 18).toString());
+      await token
+        .connect(userA)
+        .approve(banking.address, (30 * 10 ** 18).toString());
+      await banking.connect(userA).depositTokens(30);
 
-      expect((await banking.userBalance(userA.address)).toString()).to.be.equal(
-        AMOUNT
-      );
+      expect(await banking.userBalance(userA.address)).to.be.equal(30);
     });
   });
 });
