@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-expressions */
 import { SignerWithAddress } from "@nomiclabs/hardhat-ethers/signers";
 import { expect } from "chai";
 import { ethers } from "hardhat";
@@ -29,10 +30,36 @@ describe("Banking.sol test", () => {
 
   describe("Util functions for banking", () => {
     it("User should not be blacklisted", async () => {
-      const blacklisted = await banking.isBlacklisted(userA.address);
+      expect(await banking.isBlacklisted(userA.address)).to.be.false;
+    });
 
-      // eslint-disable-next-line no-unused-expressions
-      expect(blacklisted).to.be.false;
+    it("User should be blacklisted", async () => {
+      await banking.addToBlacklist(userA.address);
+      expect(await banking.isBlacklisted(userA.address)).to.be.true;
+    });
+
+    it("Admin should be the deployer", async () => {
+      expect(await banking.owner()).to.be.equal(owner.address);
+    });
+
+    it("Transfer of ownership should change the deployer from the admin", async () => {
+      await banking.transferOwnership(userA.address);
+      expect(await banking.owner()).to.be.equal(userA.address);
+      expect(await banking.owner()).to.be.not.equal(owner.address);
+    });
+
+    it("Balance should be 0", async () => {
+      try {
+        await banking.userBalance(userA.address);
+      } catch (err) {
+        expect(err).to.exist;
+      }
+    });
+
+    it("Total-reward received should be 0", async () => {
+      const reward = await banking.totalRewardReceived(userA.address);
+
+      expect(reward).to.be.equal(0);
     });
   });
 });
