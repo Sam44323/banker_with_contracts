@@ -31,9 +31,9 @@ describe("Testing the BKR Token", () => {
     ).to.be.revertedWith("Admin can call this function!");
   });
 
-  // it("The the minter value should be 100 after initial minter", async() => {
-
-  // })
+  it("The the minter value should be 1100 after initial minter and owner token transfer for 1000", async () => {
+    expect(await token.tokensMinted()).to.be.equal(1100);
+  });
 
   it("Checking the ownership transfer method", async () => {
     await token.connect(owner).transferOwnership(recipient.address);
