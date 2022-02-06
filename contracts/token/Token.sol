@@ -13,7 +13,7 @@ contract Token is Ownable, ERC20Capped {
 
     constructor() ERC20("Banker", "BKR") ERC20Capped(100000 * 10**18) {}
 
-    // function for adding liquidity to a contract for LP purposes
+    // function for adding liquidity to a contract for LP purposes (1000 ether slab for minter)
 
     function mint(address _recipient) public onlyAdmin {
         require(mintedToken <= cap(), "Token supply is already capped");
