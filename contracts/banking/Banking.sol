@@ -49,7 +49,7 @@ contract Banking is Ownable {
      * @param: user: address of the user
      */
 
-    function isBlaclisted(address user) public view returns (bool) {
+    function isBlacklisted(address user) public view returns (bool) {
         return blacklisted[user];
     }
 

@@ -18,8 +18,21 @@ describe("Banking.sol test", () => {
       .connect(owner)
       .deploy();
 
+    await token.deployed();
+
     banking = await (await ethers.getContractFactory("Banking"))
       .connect(owner)
       .deploy(token.address);
+
+    await banking.deployed();
+  });
+
+  describe("Util functions for banking", () => {
+    it("User should not be blacklisted", async () => {
+      const blacklisted = await banking.isBlacklisted(userA.address);
+
+      // eslint-disable-next-line no-unused-expressions
+      expect(blacklisted).to.be.false;
+    });
   });
 });
