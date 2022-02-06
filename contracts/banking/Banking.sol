@@ -9,7 +9,7 @@ contract Banking is Ownable {
     mapping(address => bool) internal blacklisted; // blacklisted addresses
     mapping(address => uint256) internal balances; // balancer deposited for each address
     
-    mapping(address => uint256) internal rewardBalances; // storing theh reward balances airdropped
+    mapping(address => uint256) internal rewardBalances; // storing the reward balances airdropped
 
     constructor(address _tokenAddress) {
         token = IERC20(_tokenAddress);
